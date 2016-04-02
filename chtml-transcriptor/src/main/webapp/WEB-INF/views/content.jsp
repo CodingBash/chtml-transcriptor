@@ -8,13 +8,15 @@
 			<c:out value="${message}"></c:out>
 		</h2>
 	</c:if>
-	
-	<form:form commandName="">
-		<table class="table">
+	<h2>Upload your file. You will receive a download of the final HTML directory</h2>
+
+	<form enctype="multipart/form-data"
+		action="<c:url value="/uploadFile"/>?${_csrf.parameterName}=${_csrf.token} " method="POST">
+		<table class="table" id="file-table">
 			<thead>
 				<tr>
-					<td></td>
-					<td></td>
+					<td>Label</td>
+					<td>Input</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -32,7 +34,7 @@
 				</tr>
 			</tbody>
 		</table>
-	</form:form>
+	</form>
 
 	<div>
 		<ul>

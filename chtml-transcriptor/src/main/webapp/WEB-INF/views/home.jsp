@@ -5,7 +5,20 @@
 <title>CHTML TRANSCRIPTOR</title>
 <link rel="stylesheet" type="text/css"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="../styles/common.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
+
+<style>
+.navbar {
+	background-color: transparent;
+	border: 0;
+}
+
+.jumbotron {
+	margin-top: 0;
+	padding-top: 0;
+	height:
+}
+</style>
 </head>
 <body>
 	<jsp:include page="header.jsp" />
@@ -17,5 +30,9 @@
 		type="text/javascript"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
 		type="text/javascript"></script>
+	<script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+	<script>
+		$("#file-table").DataTable();
+	</script>
 </body>
 </html>
