@@ -2,39 +2,35 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-	<!-- jstl implementation -->
-	<c:if test="${message}">
-		<h2>
-			<c:out value="${message}"></c:out>
-		</h2>
-	</c:if>
-	<h2>Upload your file. You will receive a download of the final HTML directory</h2>
-
+	<div class="text-center">
+		<h1>Composite HTML Converter</h1>
+		<h4>CHTML is a new technology able to bring the composite pattern to static web resources.
+			CHTML makes the development of static HTML websites easy and simple.</h4>
+	</div>
 	<form enctype="multipart/form-data"
 		action="<c:url value="/uploadFile"/>?${_csrf.parameterName}=${_csrf.token} " method="POST">
-		<table class="table" id="file-table">
-			<thead>
-				<tr>
-					<td>Label</td>
-					<td>Input</td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>File to upload:</td>
-					<td><input type="file" name="file" /></td>
-				</tr>
-				<tr>
-					<td>Name:</td>
-					<td><input type="text" name="name" /></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><input type="submit" value="Upload" /></td>
-				</tr>
-			</tbody>
-		</table>
+
+		<label for="file">CHTML File(s) to upload</label>
+		<input type="file" name="file" id="file" />
 	</form>
+	<table class="table" id="file-table">
+		<thead>
+			<tr>
+				<td>File Name</td>
+				<td>File Size</td>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${fileList}" var="files" varStatus="file">
+				<tr>
+					<c:out value="${file.name}" />
+				</tr>
+				<tr>
+					<c:out value="${file.size}" />
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
 	<a href="<c:url value="/compile"/>" class="btn btn-primary">Compile</a>
 	<a href="<c:url value="/download"/>" class="btn btn-primary">Download</a>
 	<div>

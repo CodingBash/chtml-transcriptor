@@ -2,21 +2,17 @@
 <%@ page session="false"%>
 <html>
 <head>
-<title>CHTML TRANSCRIPTOR</title>
+<title>CHTML TO HTML CONVERTER</title>
 <link rel="stylesheet" type="text/css"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
 
 <style>
 .navbar {
-	background-color: transparent;
+	background-color: #2c3e50;
+	border-radius: 0; color : #ecf0f1;
 	border: 0;
-}
-
-.jumbotron {
-	margin-top: 0;
-	padding-top: 0;
-	height:
+	color: #ecf0f1;
 }
 </style>
 </head>
