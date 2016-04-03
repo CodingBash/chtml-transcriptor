@@ -10,9 +10,25 @@
 <style>
 .navbar {
 	background-color: #2c3e50;
-	border-radius: 0; color : #ecf0f1;
-	border: 0;
+	border-radius: 0;
 	color: #ecf0f1;
+	border: 0;
+}
+
+.section {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.bordered {
+	border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.padded {
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 </style>
 </head>

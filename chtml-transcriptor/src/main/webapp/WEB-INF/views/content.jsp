@@ -1,77 +1,60 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-	<div class="text-center">
-		<h1>Composite HTML Converter</h1>
-		<h4>CHTML is a new technology able to bring the composite pattern to static web resources.
-			CHTML makes the development of static HTML websites easy and simple.</h4>
-	</div>
-	<form enctype="multipart/form-data"
-		action="<c:url value="/uploadFile"/>?${_csrf.parameterName}=${_csrf.token} " method="POST">
-
-		<label for="file">CHTML File(s) to upload</label>
-		<input type="file" name="file" id="file" />
-	</form>
-	<table class="table" id="file-table">
-		<thead>
-			<tr>
-				<td>File Name</td>
-				<td>File Size</td>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach items="${fileList}" var="files" varStatus="file">
-				<tr>
-					<c:out value="${file.name}" />
-				</tr>
-				<tr>
-					<c:out value="${file.size}" />
-				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
-	<a href="<c:url value="/compile"/>" class="btn btn-primary">Compile</a>
-	<a href="<c:url value="/download"/>" class="btn btn-primary">Download</a>
-	<div>
-		<ul>
-			<c:forEach items="${files}" var="files" varStatus="file">
-				<li><c:out value="${file}"></c:out></li>
-			</c:forEach>
-		</ul>
+	<div class="section">
+		<div class="text-center">
+			<h1>Composite HTML Converter</h1>
+			<h4>CHTML is a new technology able to bring the composite pattern to static web resources.
+				CHTML makes the development of static HTML websites easy and simple.</h4>
+		</div>
 	</div>
 
+	<div class="section">
+		<form enctype="multipart/form-data"
+			action="<c:url value="/uploadFile"/>?${_csrf.parameterName}=${_csrf.token} " method="POST">
 
-	<%--
-	<div th:if="${message}">
-		<h2 th:text="${message}" />
-	</div>
-
-	<div>
-		<form method="POST" enctype="multipart/form-data" action="/upload">
-			<table>
-				<tr>
-					<td>File to upload:</td>
-					<td><input type="file" name="file" /></td>
-				</tr>
-				<tr>
-					<td>Name:</td>
-					<td><input type="text" name="name" /></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><input type="submit" value="Upload" /></td>
-				</tr>
-			</table>
+			<label for="file">CHTML file(s) to upload</label>
+			<input type="file" name="file" id="file" />
 		</form>
 	</div>
+	<div class="section">
+		<table class="table" id="file-table">
+			<thead>
+				<tr>
+					<td>File Name</td>
+					<td></td>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${fileList}" var="files" varStatus="file">
+					<tr>
+						<c:set var="fileName" value="${files}" />
 
-	<div>
-		<ul>
-			<li th:each="file : ${files}" th:text="${file}"></li>
-		</ul>
+						<c:set var="beginningIndex" value="${fn:indexOf(fileName, 'chtml\') + 6} " />
+						<fmt:parseNumber var="beginningIndexInt" integerOnly="true" type="number"
+							value="${beginningIndex}" />
+
+						<c:set var="endingIndex" value="${fn:indexOf(fileName, '.html') + 5}" />
+						<fmt:parseNumber var="endingIndexInt" integerOnly="true" type="number" value="${endingIndex}" />
+
+						<c:set var="fileNameCut" value="${fn:substring(fileName, beginningIndexInt, endingIndexInt)}" />
+						<td><c:out value="${fileNameCut}" /></td>
+						<td><button class="btn btn-danger">Delete</button></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
 	</div>
-	--%>
-
+	<div class="section bordered">
+		<div class="text-center padded">
+			<a href="<c:url value="/compile"/>" class="btn btn-primary">Compile</a> <a
+				href="<c:url value="/download"/>" class="btn btn-primary">Download</a> <a
+				href="<c:url value="/delete"/>" class="btn btn-danger">Delete All</a>
+		</div>
+	</div>
 </body>
 </html>

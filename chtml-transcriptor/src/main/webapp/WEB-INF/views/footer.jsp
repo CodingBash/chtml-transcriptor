@@ -1,5 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<footer>
-	Copyright &copy
-	<c:out value="${currentYear}" />
-</footer>
+<div class="section">
+	<footer class="text-center"> Copyright &copy 2016 </footer>
+</div>
