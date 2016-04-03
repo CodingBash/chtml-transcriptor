@@ -44,7 +44,7 @@ public class CompileController extends BaseController
 
 		for (int i = 0; i < listOfFiles.length; i++)
 		{
-			addToHtmlDirectory(convertToHtml(listOfFiles[i]));
+			addToHtmlDirectory(convertToHtml(listOfFiles[i], 1));
 		}
 
 		return mav;
@@ -57,9 +57,9 @@ public class CompileController extends BaseController
 	 * @return
 	 * @throws Exception
 	 */
-	public File convertToHtml(File chtml) throws Exception
+	public File convertToHtml(File chtml, int deep) throws Exception
 	{
-
+		
 		String content = FileUtils.readFileToString(chtml);
 		Pattern pattern = Pattern.compile("<include\\sfile=\"([a-zA-Z0-9]*\\.chtml)\"\\s*\\/>");
 		Matcher matcher = pattern.matcher(content);
@@ -75,7 +75,13 @@ public class CompileController extends BaseController
 		}
 		File resultFile = new File(chtml.getName().substring(0, chtml.getName().indexOf('.')) + ".html");
 		FileUtils.writeStringToFile(resultFile, results);
-		return resultFile;
+		
+		
+		if(deep >= 0){
+			return convertToHtml(resultFile, deep-1);
+		} else {
+			return resultFile;
+		}
 	}
 
 	/**

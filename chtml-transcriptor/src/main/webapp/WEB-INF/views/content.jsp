@@ -12,14 +12,20 @@
 				CHTML makes the development of static HTML websites easy and simple.</h4>
 		</div>
 	</div>
-
+	<br />
 	<div class="section">
-		<form enctype="multipart/form-data"
-			action="<c:url value="/uploadFile"/>?${_csrf.parameterName}=${_csrf.token} " method="POST">
-
-			<label for="file">CHTML file(s) to upload</label>
-			<input type="file" name="file" id="file" />
-		</form>
+		<div class="row">
+			<div class="col-sm-6">
+				<h5>Upload a file</h5>
+				<form enctype="multipart/form-data"
+					action="<c:url value="/uploadFile"/>?${_csrf.parameterName}=${_csrf.token} " method="POST"
+					style="">
+					<label for="file">CHTML file(s) to upload</label>
+					<input type="file" name="file" id="file" />
+					<input type="submit" value="Upload" />
+				</form>
+			</div>
+		</div>
 	</div>
 	<div class="section">
 		<table class="table" id="file-table">
@@ -38,7 +44,7 @@
 						<fmt:parseNumber var="beginningIndexInt" integerOnly="true" type="number"
 							value="${beginningIndex}" />
 
-						<c:set var="endingIndex" value="${fn:indexOf(fileName, '.html') + 5}" />
+						<c:set var="endingIndex" value="${fn:indexOf(fileName, '.chtml') + 6}" />
 						<fmt:parseNumber var="endingIndexInt" integerOnly="true" type="number" value="${endingIndex}" />
 
 						<c:set var="fileNameCut" value="${fn:substring(fileName, beginningIndexInt, endingIndexInt)}" />
