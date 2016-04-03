@@ -36,6 +36,7 @@
 		</table>
 	</form>
 	<a href="<c:url value="/compile"/>" class="btn btn-primary">Compile</a>
+	<a href="<c:url value="/download"/>" class="btn btn-primary">Download</a>
 	<div>
 		<ul>
 			<c:forEach items="${files}" var="files" varStatus="file">

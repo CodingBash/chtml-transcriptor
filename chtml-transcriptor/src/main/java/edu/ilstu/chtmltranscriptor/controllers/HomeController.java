@@ -1,7 +1,9 @@
 package edu.ilstu.chtmltranscriptor.controllers;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -13,6 +15,8 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.FileUtils;
@@ -46,6 +50,62 @@ public class HomeController
 			+ File.separator + "chtml";
 	private static final String htmlDirectory = System.getProperty("catalina.home") + File.separator + "tmpFiles"
 			+ File.separator + "html";
+
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	public String download(HttpServletRequest request, HttpServletResponse response)
+	{
+		ModelAndView mav = new ModelAndView("home");
+		File file = new File(htmlDirectory + File.separator + "page.html");
+		// File[] listOfFiles = folder.listFiles();
+
+		response.setContentType("text/html");
+		response.addHeader("Content-Disposition", "attachment; filename=page.html");
+
+		byte[] buffer = new byte[1024];
+		FileInputStream fis = null;
+		BufferedInputStream bis = null;
+		try
+		{
+			fis = new FileInputStream(file);
+			bis = new BufferedInputStream(fis);
+			OutputStream os = response.getOutputStream();
+			int i = bis.read(buffer);
+			while (i != -1)
+			{
+				os.write(buffer, 0, i);
+				i = bis.read(buffer);
+			}
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			if (bis != null)
+			{
+				try
+				{
+					bis.close();
+				} catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if (fis != null)
+			{
+				try
+				{
+					fis.close();
+				} catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return null;
+	}
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -133,7 +193,7 @@ public class HomeController
 			results = matcher2.replaceAll(replacement);
 		}
 
-		File resultFile = new File(chtml.getName() + ".chtml");
+		File resultFile = new File(chtml.getName().substring(0, chtml.getName().indexOf('.')) + ".html");
 		FileUtils.writeStringToFile(resultFile, results);
 		return resultFile;
 		// TODO to be implemented
@@ -283,21 +343,27 @@ public class HomeController
 		}
 	}
 
+	/**
+	 * Add file to directory
+	 * 
+	 * @param htmlFile
+	 * @throws IOException
+	 */
 	private void addToHtmlDirectory(File htmlFile) throws IOException
 	{
 		if (htmlFile != null)
 		{
-			System.out.println(FileUtils.readFileToString(htmlFile));
-			File htmlDir = new File(htmlDirectory);
-			if (!htmlDir.exists())
+			byte[] bytes = FileUtils.readFileToByteArray(htmlFile);
+			File dir = new File(htmlDirectory);
+			if (!dir.exists())
 			{
-				htmlDir.mkdirs();
+				dir.mkdirs();
 			}
-
-			File file = new File(htmlDirectory + File.separator + htmlFile.getName());
-			OutputStream out = new FileOutputStream(file);
-			out.close();
-			FileUtils.copyFile(htmlFile, htmlDir);
+			System.out.println(htmlFile.getName());
+			File serverFile = new File(dir.getAbsolutePath() + File.separator + htmlFile.getName());
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+			stream.write(bytes);
+			stream.close();
 		}
 	}
 
